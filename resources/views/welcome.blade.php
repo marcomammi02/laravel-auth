@@ -68,7 +68,7 @@
             @if (Route::has('login'))
                 <div class="top-right links">
                     @auth
-                        <a href="{{ url('/home') }}">Home</a>
+                        <a href="{{ url('/admin/home') }}">Home</a>
                     @else
                         <a href="{{ route('login') }}">Login</a>
 
@@ -80,6 +80,15 @@
             @endif
 
             <div class="content">
+                <div class="login-status" style="color: #0084ff">
+                    @php
+                        if (Auth::check()) {
+                            echo 'Status: Logged';
+                        } else {
+                            echo 'Status: Not logged';
+                        }
+                    @endphp
+                </div>
                 <div class="title m-b-md">
                     Laravel
                 </div>
