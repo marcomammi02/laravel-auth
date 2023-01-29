@@ -16,7 +16,8 @@
                         <th scope="row">{{ $post->id }}</th>
                         <td>{{ $post->slug }}</td>
                         <td>{{ $post->title }}</td>
-                        <td><a href="{{ route('admin.posts.show', ['post' => $post->id]) }}" class="btn btn-primary">Visita</a></td>
+                        <td><a href="{{ route('admin.posts.show', ['post' => $post->id]) }}" class="btn btn-primary">Visit</a></td>
+                        <td><a href="{{ route('admin.posts.edit', ['post' => $post->id]) }}" class="btn btn-warning">Edit</a></td>
                     </tr>
                 @endforeach
             </tbody>

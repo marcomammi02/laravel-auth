@@ -3,7 +3,7 @@
 @section('content')
     <div class="container text-center">
         <h2>{{ ucfirst($post->title) }}</h2>
-        <img src="{{ $post->image }}" alt="{{ $post->title }}">
+        <img src="{{ $post->image }}" alt="{{ $post->title }} image">
         <p class="content">{{ $post->content }}</p>
     </div>
 @endsection

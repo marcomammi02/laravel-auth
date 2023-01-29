@@ -2,12 +2,24 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Post;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use App\Http\Controllers\Controller;
 
 class PostController extends Controller
 {
+    private $validations = [
+        'slug'      => [
+            'required',
+            'string',
+            'max:100',
+        ],
+        'title'     => 'required|string|max:100',
+        'image'     => 'string|max:100',
+        'content'   => 'string',
+        'excerpt'   => 'string',
+    ];
     /**
      * Display a listing of the resource.
      *
@@ -29,7 +41,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.posts.create');
     }
 
     /**
@@ -40,7 +52,23 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // validation
+        $this->validations['slug'][] = 'unique:posts';
+        $request->validate($this->validations);
+
+        $data = $request->all();
+
+        // salvare i dati nel db
+        $post = new Post;
+        $post->slug = $data['slug'];
+        $post->title = $data['title'];
+        $post->image = $data['image'];
+        $post->content = $data['content'];
+        $post->excerpt = $data['excerpt'];
+        $post->save();
+
+        // ridirezionare (e non ritornare) una view
+        return redirect()->route('admin.posts.show', ['post' => $post]);
     }
 
     /**
@@ -64,7 +92,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        return view('admin.posts.edit', compact('post'));
     }
 
     /**
@@ -76,7 +104,22 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+         // validation
+         $this->validations['slug'][] = Rule::unique('posts')->ignore($post);
+         $request->validate($this->validations);
+
+        $data = $request->all();
+
+        // salvare i dati nel db
+        $post->slug = $data['slug'];
+        $post->title = $data['title'];
+        $post->image = $data['image'];
+        $post->content = $data['content'];
+        $post->excerpt = $data['excerpt'];
+        $post->update();
+
+        // ridirezionare (e non ritornare) una view
+        return redirect()->route('admin.posts.show', ['post' => $post]);
     }
 
     /**
