@@ -45,6 +45,21 @@
                 </div>
             </div>
             <div class="mb-3">
+                <label for="uploaded_img" class="form-label">Image:</label>
+                <input class="form-control @error('uploaded_img') is-invalid @enderror" type="file" id="uploaded_img" name="uploaded_img" multiple>
+                <div class="invalid-feedback">
+                    @error('uploaded_img')
+                    <ul>
+                        @foreach ($errors->get('uploaded_img') as $error)
+                            <li>{{ $message }}</li>
+                        @endforeach
+                    </ul>
+                    @enderror
+                </div>
+                <p class="old-img-preview-title">Old image:</p>
+                <img class="old-img-preview" src="{{ asset('storage/' . $post->uploaded_img) }}" alt="{{ $post->title }} image">
+            </div>
+            <div class="mb-3">
                 <label for="content" class="form-label">Content:</label>
                 <textarea style="height: 10rem" class="form-control @error('content') is-invalid @enderror" id="content" name="content">{{ old('content', $post->content) }}</textarea>
                 <div class="invalid-feedback">
@@ -76,3 +91,13 @@
         </form>
     </div>
 @endsection
+
+<style>
+    .old-img-preview-title {
+        margin: 1rem 0 0;
+    }
+    .old-img-preview {
+        max-width: 300px;
+        border: 5px solid #b6b6b6;
+    }
+</style>

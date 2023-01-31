@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <form action="{{ route('admin.posts.store') }}" method="post" class="row g-3 needs-validation" novalidate>
+        <form action="{{ route('admin.posts.store') }}" method="post" class="row g-3 needs-validation" enctype="multipart/form-data" novalidate>
             @csrf
             <div class="mb-3">
                 <label for="title" class="form-label">Title:</label>
@@ -37,6 +37,19 @@
                     @error('image')
                     <ul>
                         @foreach ($errors->get('image') as $error)
+                            <li>{{ $message }}</li>
+                        @endforeach
+                    </ul>
+                    @enderror
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="uploaded_img" class="form-label">Image:</label>
+                <input class="form-control @error('uploaded_img') is-invalid @enderror" type="file" id="uploaded_img" name="uploaded_img" multiple>
+                <div class="invalid-feedback">
+                    @error('uploaded_img')
+                    <ul>
+                        @foreach ($errors->get('uploaded_img') as $error)
                             <li>{{ $message }}</li>
                         @endforeach
                     </ul>

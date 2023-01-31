@@ -1,7 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-    <table class="table table-dark table-hover">
+    <div class="container">
+        @if (session('success_delete'))
+            <div class="alert alert-warning" role="alert">
+                Post with ID {{ session('success_delete')->id }} eliminated!
+            </div>
+        @endif
+
         <table class="table">
             <thead>
               <tr>
@@ -16,13 +22,20 @@
                         <th scope="row">{{ $post->id }}</th>
                         <td>{{ $post->slug }}</td>
                         <td>{{ $post->title }}</td>
-                        <td><a href="{{ route('admin.posts.show', ['post' => $post->id]) }}" class="btn btn-primary">Visit</a></td>
-                        <td><a href="{{ route('admin.posts.edit', ['post' => $post->id]) }}" class="btn btn-warning">Edit</a></td>
+                        <td><a href="{{ route('admin.posts.show', ['post' => $post]) }}" class="btn btn-primary">Visit</a></td>
+                        <td><a href="{{ route('admin.posts.edit', ['post' => $post]) }}" class="btn btn-warning">Edit</a></td>
+                        <td>
+                            <form action="{{ route('admin.posts.destroy', ['post' => $post]) }}" method="post">
+                                @method('DELETE')
+                                @csrf
+                                <button class="btn btn-danger">Delete</button>
+                            </form>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>
-          </table>
-    </table>
-    {{ $posts->links() }}
+        </table>
+        {{ $posts->links() }}
+    </div>
 @endsection
 
